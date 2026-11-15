@@ -53,3 +53,10 @@ existing code that catches `TypeError` around a merge continues to work.
 Because lists are replaced, merging `{"xs": [1, 2]}` with `{"xs": [3]}`
 gives `{"xs": [3]}`, not `{"xs": [1, 2, 3]}`. That is deliberate. The same
 applies to tuples and sets: they are values, not mergeable structures.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
